@@ -125,12 +125,12 @@
 }
 
 - (void)initFrame:(CGRect)frame {
-    CGFloat width  = frame.size.width;
-    CGFloat height = frame.size.height;
-    [_floatView setFrame:CGRectMake(0, 0, width, height)];
-    [_mainLabel setFrame:CGRectMake(0, 0, width, height)];
-    [_arrowMark setFrame:CGRectMake(width -self.rotateIconMarginRight -self.rotateIconSize.width, (height -self.rotateIconSize.height)/2, self.rotateIconSize.width, self.rotateIconSize.height)];
-    [_optionsList setFrame:CGRectMake(0, height, width, _optionsList.frame.size.height)];
+//    CGFloat width  = frame.size.width;
+//    CGFloat height = frame.size.height;
+//    [_floatView setFrame:CGRectMake(0, 0, width, height)];
+//    [_mainLabel setFrame:CGRectMake(0, 0, width, height)];
+//    [_arrowMark setFrame:CGRectMake(width -self.rotateIconMarginRight -self.rotateIconSize.width, (height -self.rotateIconSize.height)/2, self.rotateIconSize.width, self.rotateIconSize.height)];
+//    [_optionsList setFrame:CGRectMake(0, height, width, _optionsList.frame.size.height)];
 }
 
 #pragma mark - Action Methods
