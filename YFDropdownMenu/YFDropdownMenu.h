@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) id <YFDropdownMenuDelegate> delegate;
 
 /**菜单按钮*/
-//@property (nonatomic,strong,readonly) UIButton    *mainBtn;
+@property (nonatomic,strong,readonly) UILabel     *mainLabel;
 /**尖头图标*/
 @property (nonatomic,strong,readonly) UIImageView *arrowMark;
 /**下拉列表*/
@@ -55,9 +55,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**透明遮盖 （获取点击事件 隐藏选项列表）*/
 @property (nonatomic, strong,readonly) UIView      *coverView;
 
+/** 上一次 文字改变后，menu的宽度 默认：self.width */
+@property (nonatomic,assign) CGFloat           selectedLastestMenuWidth;
 /** 文字改变后，menu的宽度 */
 @property (nonatomic,assign) CGFloat           selectedMenuWidth;
-
+/** 文字改变后，menu的宽度的最大宽度 默认：0 不设置最大宽度*/
+@property (nonatomic,assign) CGFloat           selectedMenuMaxWidth;
 
 @property (nonatomic,copy)   NSString        * title;
 @property (nonatomic,strong) UIColor         * titleBgColor;
@@ -68,12 +71,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) CGFloat           titleMarginLeft; // default: 7.5
 @property (nonatomic,assign) CGFloat           titleMarginRight; // default: 7.5
 @property (nonatomic)        NSTextAlignment   titleAlignment; // default : NSTextAlignmentLeft
-@property (nonatomic)        UIEdgeInsets      titleEdgeInsets; // 废弃了
-
-///**点击列表项后 menu文字改为选中项文字 */
-//@property (nonatomic,assign) BOOL              titleIsAutoChange;
-///**文字改变后menu的最大宽度（仅在titleIsAutoChange为YES有效）*/
-//@property (nonatomic,assign) CGFloat           titleAutoChangeMaxWidth;
 
 
 @property (nonatomic,strong) UIImage         * rotateIcon;

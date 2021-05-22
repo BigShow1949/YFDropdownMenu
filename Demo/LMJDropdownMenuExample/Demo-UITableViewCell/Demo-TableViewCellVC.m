@@ -60,7 +60,6 @@
     cell.menu.titleFont       = [UIFont boldSystemFontOfSize:15];
     cell.menu.titleColor      = [UIColor whiteColor];
     cell.menu.titleAlignment  = NSTextAlignmentLeft;
-    cell.menu.titleEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     
     cell.menu.rotateIcon      = [UIImage imageNamed:@"arrowIcon3"];
     cell.menu.rotateIconSize  = CGSizeMake(15, 15);

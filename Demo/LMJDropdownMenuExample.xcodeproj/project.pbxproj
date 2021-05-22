@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1854B11326592A1A000AB510 /* YFDropdownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1854B11126592A1A000AB510 /* YFDropdownMenu.m */; };
+		1854B13A265949AB000AB510 /* YFDropdownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 1854B139265949AB000AB510 /* YFDropdownMenu.m */; };
 		994F530523B0D9F10044643E /* Demo-StoryboardVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 994F530423B0D9F10044643E /* Demo-StoryboardVC.m */; };
 		994F530723B0DA060044643E /* Demo.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 994F530623B0DA060044643E /* Demo.storyboard */; };
 		E43909562297E297002BD570 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E43909552297E297002BD570 /* AppDelegate.m */; };
@@ -33,8 +33,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		1854B11126592A1A000AB510 /* YFDropdownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YFDropdownMenu.m; sourceTree = "<group>"; };
-		1854B11226592A1A000AB510 /* YFDropdownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YFDropdownMenu.h; sourceTree = "<group>"; };
+		1854B138265949AB000AB510 /* YFDropdownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YFDropdownMenu.h; sourceTree = "<group>"; };
+		1854B139265949AB000AB510 /* YFDropdownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YFDropdownMenu.m; sourceTree = "<group>"; };
 		994F530323B0D9F10044643E /* Demo-StoryboardVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Demo-StoryboardVC.h"; sourceTree = "<group>"; };
 		994F530423B0D9F10044643E /* Demo-StoryboardVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "Demo-StoryboardVC.m"; sourceTree = "<group>"; };
 		994F530623B0DA060044643E /* Demo.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Demo.storyboard; sourceTree = "<group>"; };
@@ -96,8 +96,8 @@
 		1854B10B265929E0000AB510 /* YFDropdownMenu */ = {
 			isa = PBXGroup;
 			children = (
-				1854B11226592A1A000AB510 /* YFDropdownMenu.h */,
-				1854B11126592A1A000AB510 /* YFDropdownMenu.m */,
+				1854B138265949AB000AB510 /* YFDropdownMenu.h */,
+				1854B139265949AB000AB510 /* YFDropdownMenu.m */,
 			);
 			name = YFDropdownMenu;
 			path = ../YFDropdownMenu;
@@ -314,8 +314,8 @@
 				E4DFB85525B7D81800F30F2B /* MASCompositeConstraint.m in Sources */,
 				994F530523B0D9F10044643E /* Demo-StoryboardVC.m in Sources */,
 				E4DFB85425B7D81800F30F2B /* ViewController+MASAdditions.m in Sources */,
-				1854B11326592A1A000AB510 /* YFDropdownMenu.m in Sources */,
 				E4557F422535A3CB00D7350F /* Demo-BaseVC.m in Sources */,
+				1854B13A265949AB000AB510 /* YFDropdownMenu.m in Sources */,
 				E4557F3F2535A31000D7350F /* ViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

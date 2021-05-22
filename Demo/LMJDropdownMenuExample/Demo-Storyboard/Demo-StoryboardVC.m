@@ -48,7 +48,6 @@
     _dropdownMenu.titleFont       = [UIFont boldSystemFontOfSize:15];
     _dropdownMenu.titleColor      = [UIColor whiteColor];
     _dropdownMenu.titleAlignment  = NSTextAlignmentLeft;
-    _dropdownMenu.titleEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     
     _dropdownMenu.rotateIcon      = [UIImage imageNamed:@"arrowIcon3"];
     _dropdownMenu.rotateIconSize  = CGSizeMake(15, 15);

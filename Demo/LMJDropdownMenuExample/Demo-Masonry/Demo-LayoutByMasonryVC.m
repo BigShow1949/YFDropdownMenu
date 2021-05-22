@@ -42,7 +42,6 @@
     _menu.titleFont       = [UIFont boldSystemFontOfSize:15];
     _menu.titleColor      = [UIColor whiteColor];
     _menu.titleAlignment  = NSTextAlignmentLeft;
-    _menu.titleEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     
     _menu.rotateIcon            = [UIImage imageNamed:@"arrowIcon3"];
     _menu.rotateIconSize        = CGSizeMake(15, 15);

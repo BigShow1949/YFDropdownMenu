@@ -60,14 +60,16 @@
 
 #pragma mark - Init
 - (void)initProperties{
-    _title                  = @"Please Select";
-    _titleBgColor           = [UIColor colorWithRed:64/255.f green:151/255.f blue:255/255.f alpha:1];
-    _titleFont              = [UIFont boldSystemFontOfSize:15];
-    _titleColor             = [UIColor whiteColor];
-    _titleMarginLeft        = 7.5;
-    _titleMarginRight       = 7.5;
-    _titleAlignment         = NSTextAlignmentLeft;
-    _titleEdgeInsets        = UIEdgeInsetsMake(0, 10, 0, 10);
+    _title                   = @"Please Select";
+    _titleBgColor            = [UIColor colorWithRed:64/255.f green:151/255.f blue:255/255.f alpha:1];
+    _titleFont               = [UIFont boldSystemFontOfSize:15];
+    _titleColor              = [UIColor whiteColor];
+    _titleMarginLeft         = 7.5;
+    _titleMarginRight        = 7.5;
+    _titleAlignment          = NSTextAlignmentLeft;
+    _selectedMenuWidth       = 0;
+    _selectedLastestMenuWidth= 0;
+    _selectedMenuMaxWidth    = 0;
 
     _rotateIcon             = nil;
     _rotateIconSize         = CGSizeMake(15, 15);
@@ -101,21 +103,12 @@
     
     _floatView = [[UIView alloc] initWithFrame:self.bounds];
     _floatView.layer.masksToBounds = YES;
-    _floatView.backgroundColor = [UIColor yellowColor];
     [self addSubview:_floatView];
-//    [_floatView setBackgroundColor:[UIColor redColor]];
     
     // 主按钮 显示在界面上的点击按钮
-//    _mainLabel = [UIButton buttonWithType:UIButtonTypeCustom];
-//    [_mainLabel addTarget:self action:@selector(clickmainLabel:) forControlEvents:UIControlEventTouchUpInside];
-//    _mainLabel.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-//    _mainLabel.titleEdgeInsets            = UIEdgeInsetsMake(0, 15, 0, 0);
-//    _mainLabel.selected                   = NO;
-//    [_floatView addSubview:_mainLabel];
     _mainLabel = [[UILabel alloc] init];
     _mainLabel.textAlignment = NSTextAlignmentLeft;
     [_floatView addSubview:_mainLabel];
-    [_mainLabel setBackgroundColor:[UIColor blueColor]];
     
     // 旋转尖头
     _arrowMark = [[UIImageView alloc] init];
@@ -209,7 +202,7 @@
     __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:self.animateTime animations:^{
         UIView *floatView     = weakSelf.floatView;
-        UIButton *mainLabel     = weakSelf.mainLabel;
+        UILabel *mainLabel    = weakSelf.mainLabel;
         UITableView *listView = weakSelf.optionsList;
         
         floatView.frame = CGRectMake(floatView.frame.origin.x, floatView.frame.origin.y, floatView.frame.size.width, mainLabel.frame.size.height + listHeight);
@@ -221,8 +214,6 @@
             [self.delegate dropdownMenuDidShow:self]; // 已经显示回调代理
         }
     }];
-    
-//    _mainLabel.selected = YES;
 }
 
 
@@ -235,8 +226,8 @@
     // 执行关闭动画
     __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:self.animateTime animations:^{
-        UIView *floatView = weakSelf.floatView;
-        UIButton *mainLabel = weakSelf.mainLabel;
+        UIView *floatView  = weakSelf.floatView;
+        UILabel *mainLabel = weakSelf.mainLabel;
         weakSelf.arrowMark.transform = CGAffineTransformIdentity;
         weakSelf.floatView.frame  = CGRectMake(floatView.frame.origin.x, floatView.frame.origin.y, floatView.frame.size.width, mainLabel.frame.size.height);
         
@@ -255,8 +246,6 @@
             [self.delegate dropdownMenuDidHidden:self]; // 已经隐藏回调代理
         }
     }];
-    
-//    _mainLabel.selected = NO;
 }
 
 #pragma mark - Utility Methods
@@ -345,10 +334,19 @@
     self.title = titleLabel.text;
     // 重新计算新的宽度
     // left + title + right+ arror + right
-    
     CGFloat titleWidth = [self.title boundingRectWithSize:CGSizeMake(MAXFLOAT, self.mainLabel.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.mainLabel.font} context:nil].size.width;
-        
-    self.selectedMenuWidth = _titleMarginLeft + titleWidth + _titleMarginRight + _rotateIconSize.width + _rotateIconMarginRight;
+    
+    if (!self.selectedLastestMenuWidth) {
+        self.selectedLastestMenuWidth = self.frame.size.width;
+    }else {
+        _selectedLastestMenuWidth = self.selectedMenuWidth;
+    }
+
+    _selectedMenuWidth = _titleMarginLeft + titleWidth + _titleMarginRight + _rotateIconSize.width + _rotateIconMarginRight;
+
+    if (_selectedMenuMaxWidth) {
+        _selectedMenuWidth = MIN(self.selectedMenuWidth, self.selectedMenuMaxWidth);
+    }
     if ([self.delegate respondsToSelector:@selector(dropdownMenu:didSelectOptionAtIndex:optionTitle:)]) {
         [self.delegate dropdownMenu:self didSelectOptionAtIndex:indexPath.row optionTitle:titleLabel.text];
     }
@@ -387,8 +385,7 @@
 - (void)setIsOpened:(BOOL)isOpened {
     _isOpened = isOpened;
     if (self.titleBgColorSelected) {
-        [self.mainLabel setBackgroundColor:isOpened?self.titleBgColorSelected:self.titleBgColor];
-        [self.arrowMark setBackgroundColor:isOpened?self.titleBgColorSelected:self.titleBgColor];
+        self.floatView.backgroundColor = isOpened?self.titleBgColorSelected:self.titleBgColor;
     }
     if (self.titleColorSelected) {
         self.mainLabel.textColor = isOpened?self.titleColorSelected:self.titleColor;
@@ -418,15 +415,13 @@
     _rotateIconTint = rotateIconTint;
     self.arrowMark.tintColor = rotateIconTint;
 }
-
 - (void)setTitle:(NSString *)title{
     _title = title;
     self.mainLabel.text = title;
 }
 - (void)setTitleBgColor:(UIColor *)titleBgColor{
     _titleBgColor = titleBgColor;
-    [self.mainLabel setBackgroundColor:titleBgColor];
-    [self.arrowMark setBackgroundColor:titleBgColor];
+    self.floatView.backgroundColor = titleBgColor;
 }
 - (void)setTitleFont:(UIFont *)titleFont{
     _titleFont = titleFont;
@@ -439,11 +434,6 @@
 - (void)setTitleAlignment:(NSTextAlignment)titleAlignment{
     _titleAlignment = titleAlignment;
     self.mainLabel.textAlignment = titleAlignment;
-}
-- (void)setTitleEdgeInsets:(UIEdgeInsets)titleEdgeInsets{
-    _titleEdgeInsets = titleEdgeInsets;
-//    self.mainLabel.titleEdgeInsets = titleEdgeInsets;
-    
 }
 
 - (void)setShowsVerticalScrollIndicatorOfOptionsList:(BOOL)showsVerticalScrollIndicatorOfOptionsList {

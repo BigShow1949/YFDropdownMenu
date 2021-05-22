@@ -24,6 +24,7 @@
     
     YFDropdownMenu * menu1;
     YFDropdownMenu * menu2;
+    YFDropdownMenu * menu3;
 }
 
 - (void)viewDidLoad {
@@ -35,7 +36,12 @@
     _menu1OptionTitles = @[@"Option1",@"Option2",@"Option3",@"Option4",@"Option5"];
     _menu1OptionIcons = @[@"icon1",@"icon2",@"icon3",@"icon4",@"icon5"];
     
-    _menu2OptionTitles = @[@"选项一\n1",@"选项二\n2",@"选项三\n3",@"选项四\n4"];
+    _menu2OptionTitles = @[@"选项一\n1",@"选项二\n2",@"选项三\n3",@"选项四\n4",
+                           @"选项一\n1",@"选项二\n2",@"选项三\n3",@"选项四\n4",
+                           @"选项一\n1",@"选项二\n2",@"选项三\n3",@"选项四\n4",
+                           @"选项一\n1",@"选项二\n2",@"选项三\n3",@"选项四\n4",
+                           @"选项一\n1",@"选项二\n2",@"选项三\n3",@"选项四\n4",
+                           @"选项一\n1",@"选项二\n2",@"选项三\n3",@"选项四\n4"];
     
     
     // ----------------------- navigation bar menu ---------------------------
@@ -53,7 +59,6 @@
     navMenu.titleFont       = [UIFont boldSystemFontOfSize:15];
     navMenu.titleColor      = [UIColor whiteColor];
     navMenu.titleAlignment  = NSTextAlignmentLeft;
-    navMenu.titleEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     
     navMenu.rotateIcon            = [UIImage imageNamed:@"arrowIcon3"];
     navMenu.rotateIconSize        = CGSizeMake(15, 15);
@@ -93,7 +98,6 @@
     menu1.titleFont       = [UIFont boldSystemFontOfSize:15];
     menu1.titleColor      = [UIColor whiteColor];
     menu1.titleAlignment  = NSTextAlignmentLeft;
-    menu1.titleEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     
     menu1.rotateIcon      = [UIImage imageNamed:@"arrowIcon3"];
     menu1.rotateIconSize  = CGSizeMake(15, 15);
@@ -124,7 +128,6 @@
     menu2.titleFont       = [UIFont boldSystemFontOfSize:15];
     menu2.titleColor      = [UIColor orangeColor];
     menu2.titleAlignment  = NSTextAlignmentCenter;
-    menu2.titleEdgeInsets = UIEdgeInsetsZero;
 
     menu2.optionBgColor       = [UIColor whiteColor];
     menu2.optionFont          = [UIFont systemFontOfSize:12];
@@ -134,7 +137,7 @@
     menu2.optionLineColor     = [UIColor blackColor];
     menu2.optionLineHeight    = 1;
     
-    menu2.optionsListHeight = 100;
+//    menu2.optionsListHeight = 100;
     menu2.showsVerticalScrollIndicatorOfOptionsList = NO;
 
     [self.view addSubview:menu2];
