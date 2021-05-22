@@ -34,7 +34,6 @@
     if (self) {
         [self initProperties];
         [self initViews];
-        [self initFrame:self.frame];
     }
     return self;
 }
@@ -43,7 +42,6 @@
     [super awakeFromNib];
     [self initProperties];
     [self initViews];
-    [self initFrame:self.frame];
 }
 
 - (void)layoutSubviews {
@@ -51,8 +49,9 @@
 
     CGFloat width  = self.frame.size.width;
     CGFloat height = self.frame.size.height;
-    [_floatView setFrame:CGRectMake(_floatView.frame.origin.x, _floatView.frame.origin.y, width, height)];
-    // left + title + right + img + left
+//    [_floatView setFrame:CGRectMake(_floatView.frame.origin.x, _floatView.frame.origin.y, width, height)];
+    [_floatView setFrame:CGRectMake(0, 0, width, height)];
+    // left + title + right + img + right
     [_arrowMark setFrame:CGRectMake(width -self.rotateIconMarginRight -self.rotateIconSize.width, (height -self.rotateIconSize.height)/2, self.rotateIconSize.width, self.rotateIconSize.height)];
     [_mainLabel setFrame:CGRectMake(_titleMarginLeft, 0, width - _titleMarginLeft - _rotateIconSize.width - _titleMarginRight - _rotateIconMarginRight, height)];
     [_optionsList setFrame:CGRectMake(0, height, width, _optionsList.frame.size.height)];
@@ -122,15 +121,6 @@
     _optionsList.separatorStyle = UITableViewCellSeparatorStyleNone;
     _optionsList.scrollEnabled  = NO;
     [_floatView addSubview:_optionsList];
-}
-
-- (void)initFrame:(CGRect)frame {
-//    CGFloat width  = frame.size.width;
-//    CGFloat height = frame.size.height;
-//    [_floatView setFrame:CGRectMake(0, 0, width, height)];
-//    [_mainLabel setFrame:CGRectMake(0, 0, width, height)];
-//    [_arrowMark setFrame:CGRectMake(width -self.rotateIconMarginRight -self.rotateIconSize.width, (height -self.rotateIconSize.height)/2, self.rotateIconSize.width, self.rotateIconSize.height)];
-//    [_optionsList setFrame:CGRectMake(0, height, width, _optionsList.frame.size.height)];
 }
 
 #pragma mark - Action Methods
@@ -394,10 +384,7 @@
         [self.arrowMark setImage:isOpened?self.rotateIconSelected:self.rotateIcon];
     }
 }
-- (void)setFrame:(CGRect)frame {
-    [super setFrame:frame];
-    [self initFrame:frame];
-}
+
 
 - (void)setRotateIcon:(UIImage *)rotateIcon {
     _rotateIcon = rotateIcon;
