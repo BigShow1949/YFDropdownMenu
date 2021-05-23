@@ -1,5 +1,7 @@
 # YFDropdownMenu
  
+## 效果                              
+![](https://github.com/BigShow1949/YFDropdownMenu/demo.mov)    
 
 ## 使用
 * 使用cocoapods安装：               
