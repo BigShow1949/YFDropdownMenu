@@ -8,6 +8,7 @@
 
 #import "Demo-BaseVC.h"
 #import "YFDropdownMenu.h"
+#define HexRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 @interface Demo_BaseVC () <YFDropdownMenuDataSource,YFDropdownMenuDelegate>
 
@@ -18,7 +19,7 @@
     NSArray * _menu1OptionTitles;
     NSArray * _menu1OptionIcons;
     
-    NSArray * _menu2OptionTitles;
+    NSArray * _menu3OptionTitles;
     
     YFDropdownMenu * navMenu;
     
@@ -36,7 +37,7 @@
     _menu1OptionTitles = @[@"Option1",@"Option2",@"Option3",@"Option4",@"Option5"];
     _menu1OptionIcons = @[@"icon1",@"icon2",@"icon3",@"icon4",@"icon5"];
     
-    _menu2OptionTitles = @[@"选项一\n1",@"选项二\n2",@"选项三\n3",@"选项四\n4",
+    _menu3OptionTitles = @[@"选项一\n1",@"选项二\n2",@"选项三\n3",@"选项四\n4",
                            @"选项一\n1",@"选项二\n2",@"选项三\n3",@"选项四\n4",
                            @"选项一\n1",@"选项二\n2",@"选项三\n3",@"选项四\n4",
                            @"选项一\n1",@"选项二\n2",@"选项三\n3",@"选项四\n4",
@@ -114,7 +115,6 @@
     [view addSubview:menu1];
     
     
-    
     // ----------------------- menu2 ---------------------------
     menu2 = [[YFDropdownMenu alloc] initWithFrame:CGRectMake(200, 200, 150, 40)];
     menu2.dataSource = self;
@@ -123,7 +123,7 @@
     menu2.layer.borderColor  = [UIColor blackColor].CGColor;
     menu2.layer.borderWidth  = 1;
 
-    menu2.title           = @"Please Select";
+    menu2.title           = @"Select2";
     menu2.titleBgColor    = [UIColor lightGrayColor];
     menu2.titleFont       = [UIFont boldSystemFontOfSize:15];
     menu2.titleColor      = [UIColor orangeColor];
@@ -141,14 +141,51 @@
     menu2.showsVerticalScrollIndicatorOfOptionsList = NO;
 
     [self.view addSubview:menu2];
+    
+    
+    
+    // ----------------------- menu3 ---------------------------
+    YFDropdownMenu *menu = [[YFDropdownMenu alloc] initWithFrame:CGRectMake(20, 250, 150, 40)];
+    menu.dataSource = self;
+    menu.delegate   = self;
+    
+    menu.layer.borderColor  = [UIColor whiteColor].CGColor;
+    menu.layer.borderWidth  = 1;
+    menu.layer.cornerRadius = 3;
+    
+    menu.titleBgColorSelected    = HexRGB(0x1890FF);
+    menu.titleColorSelected      = HexRGB(0xFFFFFF);
+//    menu.rotateIconSelected      = [UIImage imageNamed:@"组 1490"];
+
+    menu.title           = @"Select3";
+    menu.titleBgColor    = HexRGB(0xEEEEEE);
+    menu.titleFont       = [UIFont systemFontOfSize:12];
+    menu.titleColor      = HexRGB(0xAAAAAA);
+
+//    menu.rotateIcon      = [UIImage imageNamed:@"组 1592"];
+    menu.rotateIconSize  = CGSizeMake(12, 8);
+    menu.rotateIconTint  = [UIColor blueColor];
+
+    menu.optionBgColor         = [UIColor whiteColor];
+    menu.optionFont            = [UIFont systemFontOfSize:12];
+    menu.optionTextColor       = HexRGB(0xbbbbbb);
+    menu.optionTextAlignment   = NSTextAlignmentLeft;
+    menu.optionNumberOfLines   = 1;
+    menu.optionLineColor       = [UIColor whiteColor];
+    menu.optionIsScreenWidth     = YES;
+    menu3 = menu;
+    [self.view addSubview:menu3];
+    
+    
+    
 }
 
 #pragma mark - YFDropdownMenu DataSource
 - (NSUInteger)numberOfOptionsInDropdownMenu:(YFDropdownMenu *)menu{
     if (menu == navMenu || menu == menu1) {
         return _menu1OptionTitles.count;
-    } else if (menu == menu2) {
-        return _menu2OptionTitles.count;
+    } else if (menu == menu3 || menu == menu2) {
+        return _menu3OptionTitles.count;
     } else {
         return 0;
     }
@@ -156,7 +193,7 @@
 - (CGFloat)dropdownMenu:(YFDropdownMenu *)menu heightForOptionAtIndex:(NSUInteger)index{
     if (menu == navMenu || menu == menu1) {
         return 30;
-    } else if (menu == menu2) {
+    } else if (menu == menu2 || menu == menu3) {
         return 40;
     } else {
         return 0;
@@ -166,7 +203,9 @@
     if (menu == navMenu || menu == menu1) {
         return _menu1OptionTitles[index];
     } else if (menu == menu2) {
-        return _menu2OptionTitles[index];
+        return _menu3OptionTitles[index];
+    }  else if (menu == menu3) {
+        return _menu3OptionTitles[index];
     } else {
         return @"";
     }
@@ -178,6 +217,16 @@
         return nil;
     }
 }
+
+- (UITableViewCell *)dropdownMenu:(YFDropdownMenu *)menu cellForOptionAtIndex:(NSUInteger)index {
+    if (menu == menu3) {
+        UITableViewCell *cell = [[UITableViewCell alloc] init];
+        cell.textLabel.text = _menu3OptionTitles[index];
+        return  cell;
+    }
+    
+    return nil;
+}
 #pragma mark - YFDropdownMenu Delegate
 - (void)dropdownMenu:(YFDropdownMenu *)menu didSelectOptionAtIndex:(NSUInteger)index optionTitle:(NSString *)title{
     if (menu == navMenu) {
@@ -186,6 +235,8 @@
         NSLog(@"你选择了(you selected)：menu1，index: %ld - title: %@", index, title);
     } else if (menu == menu2) {
         NSLog(@"你选择了(you selected)：menu2，index: %ld - title: %@", index, title);
+    } else if (menu == menu3) {
+        NSLog(@"你选择了(you selected)：menu3，index: %ld - title: %@", index, title);
     }
 }
 
@@ -196,6 +247,8 @@
         NSLog(@"--将要显示(will appear)--menu1");
     } else if (menu == menu2) {
         NSLog(@"--将要显示(will appear)--menu2");
+    }else if (menu == menu3) {
+        NSLog(@"--将要显示(will appear)--menu3");
     }
 }
 - (void)dropdownMenuDidShow:(YFDropdownMenu *)menu{
@@ -205,6 +258,8 @@
         NSLog(@"--已经显示(did appear)--menu1");
     } else if (menu == menu2) {
         NSLog(@"--已经显示(did appear)--menu2");
+    }else if (menu == menu3) {
+        NSLog(@"--已经显示(did appear)--menu3");
     }
 }
 
@@ -215,6 +270,8 @@
         NSLog(@"--将要隐藏(will disappear)--menu1");
     } else if (menu == menu2) {
         NSLog(@"--将要隐藏(will disappear)--menu2");
+    }else if (menu == menu3) {
+        NSLog(@"--将要隐藏(will disappear)--menu3");
     }
 }
 - (void)dropdownMenuDidHidden:(YFDropdownMenu *)menu{
@@ -224,6 +281,8 @@
         NSLog(@"--已经隐藏(did disappear)--menu1");
     } else if (menu == menu2) {
         NSLog(@"--已经隐藏(did disappear)--menu2");
+    }else if (menu == menu3) {
+        NSLog(@"--已经隐藏(did disappear)--menu3");
     }
 }
 

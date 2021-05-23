@@ -269,7 +269,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if ([self.dataSource respondsToSelector:@selector(dropdownMenu:cellForOptionAtIndex:)]) {
-        return [self.dataSource dropdownMenu:self cellForOptionAtIndex:indexPath.row];
+        UITableViewCell *cell = [self.dataSource dropdownMenu:self cellForOptionAtIndex:indexPath.row];
+        if (cell) return cell;
     }
     
     static NSString *CellIdentifier = @"MenuOptionListCell";
