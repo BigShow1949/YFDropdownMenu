@@ -54,13 +54,11 @@
 | 代理方法 | 是否必选 | 描述 |
 | --- | --- | ---
 | *YFDropdownMenuDataSource* | --- | ---
-
 | - numberOfOptionsInDropdownMenu: | 必选 | 获取下拉列表选项个数
 | - dropdownMenu:heightForOptionAtIndex: | 必选 | 获取每个下拉选项的高度
 | - dropdownMenu:titleForOptionAtIndex: | 必选 | 获取每个下拉选项的文字
 | - dropdownMenu:iconForOptionAtIndex: | 可选 | 获取每个下拉选项的图标
 | *YFDropdownMenuDelegate* | --- | ---
-
 | - dropdownMenuWillShow: | 可选 | 下拉菜单将要显示
 | - dropdownMenuDidShow: | 可选 | 下拉菜单已经显示
 | - dropdownMenuWillHidden: | 可选 | 下拉菜单将要隐藏
