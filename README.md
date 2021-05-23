@@ -1,7 +1,7 @@
 # YFDropdownMenu
  
 ## 效果                              
-![](https://github.com/BigShow1949/YFDropdownMenu/blob/main/demo.mov)    
+![](https://github.com/BigShow1949/YFDropdownMenu/blob/main/demo.gif)    
 
 
 ## 使用
