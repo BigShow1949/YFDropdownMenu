@@ -15,13 +15,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @required
 - (NSUInteger)numberOfOptionsInDropdownMenu:(YFDropdownMenu *)menu;
-- (CGFloat)dropdownMenu:(YFDropdownMenu *)menu heightForOptionAtIndex:(NSUInteger)index;
 - (NSString *)dropdownMenu:(YFDropdownMenu *)menu titleForOptionAtIndex:(NSUInteger)index;
 
 @optional
 /** 如果自定义cell 那么titleForOptionAtIndex  iconForOptionAtIndex 就不起作用了 */
 - (UITableViewCell *)dropdownMenu:(YFDropdownMenu *)menu cellForOptionAtIndex:(NSUInteger)index;
 - (UIImage *)dropdownMenu:(YFDropdownMenu *)menu iconForOptionAtIndex:(NSUInteger)index;
+/**default：44*/
+- (CGFloat)dropdownMenu:(YFDropdownMenu *)menu heightForOptionAtIndex:(NSUInteger)index;
+
 
 @end
 

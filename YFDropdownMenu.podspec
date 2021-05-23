@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 s.name         = "YFDropdownMenu"
-s.version      = "0.0.2"
+s.version      = "1.0.0"
 s.summary      = "Tools for OC"
 s.description  = <<-DESC
 Tools for OC private.

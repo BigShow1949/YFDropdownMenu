@@ -173,7 +173,7 @@
     if (self.optionsListHeight <= 0) { // 当未设置下拉菜单最小展示高度
         NSUInteger count = [self.dataSource numberOfOptionsInDropdownMenu:self];
         for (int i = 0; i < count; i++) {
-            CGFloat cHeight = [self.dataSource dropdownMenu:self heightForOptionAtIndex:i];
+            CGFloat cHeight = [self getCellHeight:i];
             listHeight += cHeight;
         }
         if (listHeight > listMaxHeight) {
@@ -258,12 +258,20 @@
     return [UIApplication sharedApplication].keyWindow;
 }
 
+- (CGFloat)getCellHeight:(NSUInteger)row {
+    if ([self.dataSource respondsToSelector:@selector(dropdownMenu:heightForOptionAtIndex:)]) {
+        return [self.dataSource dropdownMenu:self heightForOptionAtIndex:row];
+    }else {
+        return  44;
+    }
+}
+
 #pragma mark - UITableView Delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.dataSource numberOfOptionsInDropdownMenu:self];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return [self.dataSource dropdownMenu:self heightForOptionAtIndex:indexPath.row];
+    return [self getCellHeight:indexPath.row];
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -299,7 +307,7 @@
         [cell addSubview:line];
         //---------------------------------------------------------------------------
     }
-    CGFloat cHeight = [self.dataSource dropdownMenu:self heightForOptionAtIndex:indexPath.row];
+    CGFloat cHeight = [self getCellHeight:indexPath.row];
     
     UILabel * titleLabel = [cell viewWithTag:999];
     
@@ -326,16 +334,11 @@
     // left + title + right+ arror + right
     CGFloat titleWidth = [self.title boundingRectWithSize:CGSizeMake(MAXFLOAT, self.mainLabel.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.mainLabel.font} context:nil].size.width;
     
-    if (!self.selectedLastestMenuWidth) {
-        self.selectedLastestMenuWidth = self.frame.size.width;
-    }else {
-        _selectedLastestMenuWidth = self.selectedMenuWidth;
-    }
-
+    _selectedLastestMenuWidth = _selectedLastestMenuWidth ? _selectedMenuWidth : self.frame.size.width;
     _selectedMenuWidth = _titleMarginLeft + titleWidth + _titleMarginRight + _rotateIconSize.width + _rotateIconMarginRight;
 
     if (_selectedMenuMaxWidth) {
-        _selectedMenuWidth = MIN(self.selectedMenuWidth, self.selectedMenuMaxWidth);
+        _selectedMenuWidth = MIN(_selectedMenuWidth, _selectedMenuMaxWidth);
     }
     if ([self.delegate respondsToSelector:@selector(dropdownMenu:didSelectOptionAtIndex:optionTitle:)]) {
         [self.delegate dropdownMenu:self didSelectOptionAtIndex:indexPath.row optionTitle:titleLabel.text];
