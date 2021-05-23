@@ -1,6 +1,7 @@
 # YFDropdownMenu
  
-## 效果                              
+## 效果 
+* 耐心等待~
 ![](https://github.com/BigShow1949/YFDropdownMenu/blob/main/demo.gif)    
 
 
