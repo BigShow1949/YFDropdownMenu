@@ -49,7 +49,6 @@
 
     CGFloat width  = self.frame.size.width;
     CGFloat height = self.frame.size.height;
-//    [_floatView setFrame:CGRectMake(_floatView.frame.origin.x, _floatView.frame.origin.y, width, height)];
     [_floatView setFrame:CGRectMake(0, 0, width, height)];
     // left + title + right + img + right
     [_arrowMark setFrame:CGRectMake(width -self.rotateIconMarginRight -self.rotateIconSize.width, (height -self.rotateIconSize.height)/2, self.rotateIconSize.width, self.rotateIconSize.height)];
