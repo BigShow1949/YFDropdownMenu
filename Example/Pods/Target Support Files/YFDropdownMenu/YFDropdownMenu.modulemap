@@ -1,0 +1,6 @@
+framework module YFDropdownMenu {
+  umbrella header "YFDropdownMenu-umbrella.h"
+
+  export *
+  module * { export * }
+}

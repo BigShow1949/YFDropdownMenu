@@ -1,0 +1,6 @@
+framework module Pods_YFDropdownMenu_Tests {
+  umbrella header "Pods-YFDropdownMenu_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

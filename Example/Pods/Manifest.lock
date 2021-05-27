@@ -1,0 +1,16 @@
+PODS:
+  - YFDropdownMenu (0.1.0)
+
+DEPENDENCIES:
+  - YFDropdownMenu (from `../`)
+
+EXTERNAL SOURCES:
+  YFDropdownMenu:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  YFDropdownMenu: 50c0ceb15c0c39741327adee8354b894247df9a5
+
+PODFILE CHECKSUM: 2d5d3d904a788039eabb193a3fd50097fcb25930
+
+COCOAPODS: 1.10.1

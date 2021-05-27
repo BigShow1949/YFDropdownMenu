@@ -1,0 +1,13 @@
+use_frameworks!
+
+platform :ios, '9.0'
+
+target 'YFDropdownMenu_Example' do
+  pod 'YFDropdownMenu', :path => '../'
+
+  target 'YFDropdownMenu_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
