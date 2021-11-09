@@ -58,6 +58,7 @@
 
 #pragma mark - Init
 - (void)initProperties{
+    _autoChangeTitle         = YES;
     _title                   = @"Please Select";
     _titleBgColor            = [UIColor colorWithRed:64/255.f green:151/255.f blue:255/255.f alpha:1];
     _titleFont               = [UIFont boldSystemFontOfSize:15];
@@ -73,6 +74,7 @@
     _rotateIconSize         = CGSizeMake(15, 15);
     _rotateIconMarginRight  = 7.5;
     _rotateIconTint         = [UIColor blackColor];
+    _autoRotate             = YES;
 
     _optionBgColor          = [UIColor colorWithRed:64/255.f green:151/255.f blue:255/255.f alpha:0.5];
     _optionFont             = [UIFont systemFontOfSize:13];
@@ -119,6 +121,7 @@
     _optionsList.dataSource     = self;
     _optionsList.separatorStyle = UITableViewCellSeparatorStyleNone;
     _optionsList.scrollEnabled  = NO;
+    _optionsList.backgroundColor = [UIColor whiteColor];
     [_floatView addSubview:_optionsList];
 }
 
@@ -128,6 +131,9 @@
 }
 
 - (void)mainClick:(UITapGestureRecognizer *)tap {
+    if ([self.delegate respondsToSelector:@selector(clickDropdownMenu:)]) {
+        [self.delegate clickDropdownMenu:self];
+    }
     if (self.isOpened) {
         [self hideDropDown];
     }else {
@@ -135,25 +141,32 @@
     }
 }
 
-- (void)clickmainLabel:(UIButton *)button{
-    if(button.selected == NO) {
-        [self showDropDown];
-    }else {
-        [self hideDropDown];
-    }
-}
-
-- (void)showDropDown{   /* 显示下拉列表 */
+- (void)showDropDown {   /* 显示下拉列表 */
     self.isOpened = YES;
+
+    NSUInteger optionsCount = [self.dataSource numberOfOptionsInDropdownMenu:self];
+    if (!optionsCount) {
+        // 执行展开动画
+        [UIView animateWithDuration:self.animateTime animations:^{
+            if (self.autoRotate) {
+                self.arrowMark.transform = CGAffineTransformMakeRotation(M_PI);
+            }
+        }completion:nil];
+        return;
+    };
+    
+    
     
     // 变更menu图层
     CGPoint newPosition = [self getScreenPosition];
-    _floatView.frame = CGRectMake(newPosition.x, newPosition.y, _floatView.bounds.size.width, _floatView.bounds.size.height);
-    _floatView.layer.borderColor  = self.layer.borderColor;
-    _floatView.layer.borderWidth  = self.layer.borderWidth;
-    _floatView.layer.cornerRadius = self.layer.cornerRadius;
-    [self.coverView addSubview:_floatView];
-    
+    if (optionsCount) {
+        _floatView.frame = CGRectMake(newPosition.x, newPosition.y, _floatView.bounds.size.width, _floatView.bounds.size.height);
+        _floatView.layer.borderColor  = self.layer.borderColor;
+        _floatView.layer.borderWidth  = self.layer.borderWidth;
+        _floatView.layer.cornerRadius = self.layer.cornerRadius;
+        [self.coverView addSubview:_floatView];
+    }
+
     if(self.optionIsScreenWidth) {
         _optionsList.frame = CGRectMake(0, newPosition.y+_mainLabel.frame.size.height, [[UIScreen mainScreen] bounds].size.width, _optionsList.bounds.size.height);
         [self.coverView addSubview:_optionsList];
@@ -171,8 +184,7 @@
     CGFloat listMaxHeight = [self getCurrentKeyWindow].frame.size.height  - newPosition.y - _mainLabel.frame.size.height;
     CGFloat listHeight = 0;
     if (self.optionsListHeight <= 0) { // 当未设置下拉菜单最小展示高度
-        NSUInteger count = [self.dataSource numberOfOptionsInDropdownMenu:self];
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < optionsCount; i++) {
             CGFloat cHeight = [self getCellHeight:i];
             listHeight += cHeight;
         }
@@ -195,7 +207,9 @@
         UITableView *listView = weakSelf.optionsList;
         
         floatView.frame = CGRectMake(floatView.frame.origin.x, floatView.frame.origin.y, floatView.frame.size.width, mainLabel.frame.size.height + listHeight);
-        weakSelf.arrowMark.transform = CGAffineTransformMakeRotation(M_PI);
+        if (weakSelf.autoRotate) {
+            weakSelf.arrowMark.transform = CGAffineTransformMakeRotation(M_PI);
+        }
         listView.frame = CGRectMake(listView.frame.origin.x, listView.frame.origin.y, listView.frame.size.width, listHeight);
         
     }completion:^(BOOL finished) {
@@ -217,7 +231,9 @@
     [UIView animateWithDuration:self.animateTime animations:^{
         UIView *floatView  = weakSelf.floatView;
         UILabel *mainLabel = weakSelf.mainLabel;
-        weakSelf.arrowMark.transform = CGAffineTransformIdentity;
+        if (weakSelf.autoRotate) {
+            weakSelf.arrowMark.transform = CGAffineTransformIdentity;
+        }
         weakSelf.floatView.frame  = CGRectMake(floatView.frame.origin.x, floatView.frame.origin.y, floatView.frame.size.width, mainLabel.frame.size.height);
         
     }completion:^(BOOL finished) {
@@ -329,17 +345,22 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     UILabel * titleLabel = [cell viewWithTag:999];
-    self.title = titleLabel.text;
-    // 重新计算新的宽度
-    // left + title + right+ arror + right
-    CGFloat titleWidth = [self.title boundingRectWithSize:CGSizeMake(MAXFLOAT, self.mainLabel.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.mainLabel.font} context:nil].size.width;
     
-    _selectedLastestMenuWidth = _selectedLastestMenuWidth ? _selectedMenuWidth : self.frame.size.width;
-    _selectedMenuWidth = _titleMarginLeft + titleWidth + _titleMarginRight + _rotateIconSize.width + _rotateIconMarginRight;
+    if (_autoChangeTitle) {
+        self.title = titleLabel.text;
 
-    if (_selectedMenuMaxWidth) {
-        _selectedMenuWidth = MIN(_selectedMenuWidth, _selectedMenuMaxWidth);
+        // 重新计算新的宽度
+        // left + title + right+ arror + right
+        CGFloat titleWidth = ceil([self.title boundingRectWithSize:CGSizeMake(MAXFLOAT, self.mainLabel.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.mainLabel.font} context:nil].size.width);
+        
+        _selectedLastestMenuWidth = _selectedLastestMenuWidth ? _selectedMenuWidth : self.frame.size.width;
+        _selectedMenuWidth = _titleMarginLeft + titleWidth + _titleMarginRight + _rotateIconSize.width + _rotateIconMarginRight;
+
+        if (_selectedMenuMaxWidth) {
+            _selectedMenuWidth = MIN(_selectedMenuWidth, _selectedMenuMaxWidth);
+        }
     }
+ 
     if ([self.delegate respondsToSelector:@selector(dropdownMenu:didSelectOptionAtIndex:optionTitle:)]) {
         [self.delegate dropdownMenu:self didSelectOptionAtIndex:indexPath.row optionTitle:titleLabel.text];
     }

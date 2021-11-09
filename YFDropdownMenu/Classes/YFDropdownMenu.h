@@ -36,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)dropdownMenuDidHidden:(YFDropdownMenu *)menu;   // 当下拉菜单已经收起时调用
 
 - (void)dropdownMenu:(YFDropdownMenu *)menu didSelectOptionAtIndex:(NSUInteger)index optionTitle:(NSString *)title; // 当选择某个选项时调用
+
+- (void)clickDropdownMenu:(YFDropdownMenu *)menu;
 @end
 
 
@@ -45,6 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id <YFDropdownMenuDataSource> dataSource;
 @property (nonatomic, weak) id <YFDropdownMenuDelegate> delegate;
+@property (nonatomic,assign,readonly) BOOL isOpened;
 
 /**菜单按钮*/
 @property (nonatomic,strong,readonly) UILabel     *mainLabel;
@@ -63,6 +66,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) CGFloat           selectedMenuWidth;
 /** 文字改变后，menu的宽度的最大宽度 默认：0 不设置最大宽度*/
 @property (nonatomic,assign) CGFloat           selectedMenuMaxWidth;
+/** 点击选项，文字是否替换 */
+@property (nonatomic,assign) BOOL              autoChangeTitle;
 
 @property (nonatomic,copy)   NSString        * title;
 @property (nonatomic,strong) UIColor         * titleBgColor;
@@ -80,6 +85,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) CGSize            rotateIconSize;
 @property (nonatomic,assign) CGFloat           rotateIconMarginRight; // default: 7.5
 @property (nonatomic,strong) UIColor         * rotateIconTint;
+@property (nonatomic,assign) BOOL              autoRotate;
+
 
 @property (nonatomic,strong) UIColor         * optionBgColor;
 @property (nonatomic,strong) UIFont          * optionFont;
